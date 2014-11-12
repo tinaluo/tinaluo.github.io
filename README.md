@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Pixyll 中文版
 ## 中文版说明
 这是pixyll的汉化版，主要改动如下:
@@ -84,10 +83,3 @@ $ jekyll serve --watch
 ### 使用 Github Pages
 
 关于如何使用Github pages来host你的网站,可以参考[这里](https://pages.github.com/)
-
-=======
-skx926.github.io
-================
-
-孙凯旋个人博客站点
->>>>>>> 0e2ba1cac7c3698e3225dc5f12522245c2308157
