@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>iOS图片圆角的两种实现方式比较 &#8211; Kyle Sun's Blog</title>
+    <title>iOS图片圆角实现和性能优化 &#8211; Kyle Sun's Blog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="设置CALayer属性masksToBounds = YES时会有性能问题，导致圆角view多的地方卡顿，将其设置为NO, 并使用以下方法直接将图片切成圆角可以提高性能">
     <meta name="author" content="Kyle Sun">
@@ -25,7 +25,7 @@
     <!-- From: https://github.com/mmistakes/hpstr-jekyll-theme/blob/master/_includes/head.html -->
     <meta property="og:locale" content="en_US">
     <meta property="og:type" content="article">
-    <meta property="og:title" content="iOS图片圆角的两种实现方式比较">
+    <meta property="og:title" content="iOS图片圆角实现和性能优化">
     <meta property="og:description" content="A simple, beautiful theme for Jekyll that emphasizes content rather than aesthetic fluff.">
     <meta property="og:url" content="/ios%E5%BC%80%E5%8F%91/2014/11/13/iOS%E5%9B%BE%E7%89%87%E5%9C%86%E8%A7%92%E7%9A%84%E4%B8%A4%E7%A7%8D%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F%E6%AF%94%E8%BE%83/">
     <meta property="og:site_name" content="Kyle Sun's Blog">
@@ -96,9 +96,11 @@ var _hmt = _hmt || [];
         
 
 
+
+
 <div class="post-header mb2">
   
-  <h3 class="py2">iOS图片圆角的两种实现方式比较</h3>
+  <h3 class="py2">iOS图片圆角实现和性能优化</h3>
   
   <span class="post-meta">11月 13日, 2014</span><br>
   
@@ -106,32 +108,55 @@ var _hmt = _hmt || [];
 </div>
 
 <article class="post-content">
-  <p>设置CALayer属性masksToBounds = YES时会有性能问题，导致圆角view多的地方卡顿，将其设置为NO，并使用以下方法直接将图片切成圆角可以提高性能：</p>
+  <p>iOS的系统之中用了大量的圆角和圆形的图案，为了是我们的应用更加“接地气”，在iOS开发中我们也会不可避免的需要为自己的View添加圆角。</p>
 
-<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="p">-(</span><span class="kt">void</span><span class="p">)</span><span class="nf">setImageURL:</span><span class="p">(</span><span class="bp">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">url</span><span class="p">{</span>
-    <span class="p">[</span><span class="nb">self</span> <span class="nl">sd_setImageWithURL</span><span class="p">:[</span><span class="bp">NSURL</span> <span class="nl">URLWithString</span><span class="p">:</span><span class="n">url</span><span class="p">]</span> <span class="nl">placeholderImage</span><span class="p">:[</span><span class="bp">UIImage</span> <span class="nl">imageNamed</span><span class="p">:</span><span class="s">@&quot;my_avatar&quot;</span><span class="p">]</span> <span class="nl">completed</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="bp">UIImage</span> <span class="o">*</span><span class="n">image</span><span class="p">,</span> <span class="bp">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">,</span> <span class="n">SDImageCacheType</span> <span class="n">cacheType</span><span class="p">,</span> <span class="bp">NSURL</span> <span class="o">*</span><span class="n">imageURL</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">image</span><span class="p">)</span> <span class="p">{</span>
-            <span class="c1">// Begin a new image that will be the new image with the rounded corners</span>
-            <span class="c1">// (here with the size of an UIImageView)</span>
-            <span class="n">UIGraphicsBeginImageContextWithOptions</span><span class="p">(</span><span class="nb">self</span><span class="p">.</span><span class="n">bounds</span><span class="p">.</span><span class="n">size</span><span class="p">,</span> <span class="nb">NO</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">);</span>
-            
-            <span class="c1">// Add a clip before drawing anything, in the shape of an rounded rect</span>
-            <span class="p">[[</span><span class="bp">UIBezierPath</span> <span class="nl">bezierPathWithRoundedRect</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">bounds</span>
-                                        <span class="nl">cornerRadius</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">bounds</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span><span class="o">/</span><span class="mi">2</span><span class="p">]</span> <span class="n">addClip</span><span class="p">];</span>
-            <span class="c1">// Draw your image</span>
-            <span class="p">[</span><span class="n">image</span> <span class="nl">drawInRect</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">bounds</span><span class="p">];</span>
-            
-            <span class="c1">// Get the image, here setting the UIImageView image</span>
-            <span class="nb">self</span><span class="p">.</span><span class="n">image</span> <span class="o">=</span> <span class="n">UIGraphicsGetImageFromCurrentImageContext</span><span class="p">();</span>
-            
-            <span class="c1">// Lets forget about that we were drawing</span>
-            <span class="n">UIGraphicsEndImageContext</span><span class="p">();</span>
-        <span class="p">}</span>
-    <span class="p">}];</span>
-<span class="p">}</span></code></pre></div>
+<h4 id="section">我在开发中使用圆角有两种情况:</h4>
 
+<ul>
+  <li>圆形的用户头像</li>
+  <li>给View或Button添加圆角</li>
+</ul>
+
+<p>这两种情况都可以设置View的CALayer属性的cornerRadius属性来产生圆角，使用方法很简单</p>
+
+<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="n">view</span><span class="p">.</span><span class="n">layer</span><span class="p">.</span><span class="n">cornerRadius</span> <span class="o">=</span> <span class="mf">5.0</span></code></pre></div>
+
+<p>如果只需要一个带圆角的Button或者Label，这个方法就已经可以满足你的需求了，但是对于头像，只是给UIImageView设置cornerRadius属性只是让这个View产生了圆角，真正的Image在View的上层，因此图像不会被裁剪，为了对Image进行裁剪，我们需要设置layer的另一个属性</p>
+
+<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="n">view</span><span class="p">.</span><span class="n">layer</span><span class="p">.</span><span class="n">masksToBounds</span> <span class="o">=</span> <span class="nb">YES</span></code></pre></div>
+
+<p>这样貌似很好的解决了圆形头像的问题，但是问题来了，当我真机运行程序的时候，滑动TableView会有明显的卡顿，我的界面并不复杂，TableView的Cell当中只有一个圆形的头像和几个Label，一屏也就七八个Cell，Cell的重用也没有问题，那为什么会有卡顿呢？经过多次的尝试终于发现这个罪魁祸首就是设置masksToBounds属性为YES，只要把这个属性设置为NO，界面立马就流畅了。但是设置为NO的话，圆形的头像效果就没有了，我感觉这是Cocoa框架的Bug，看来这条路是走不通了。那有没有别的办法呢？</p>
+
+<p>办法是有的，既然给UIImageView添加圆角行不通我们可以选择利用CoreGraphic框架将图片直接裁剪成圆形，方法如下</p>
+
+<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="c1">// Begin a new image that will be the new image with the rounded corners</span>
+<span class="c1">// (here with the size of an UIImageView)</span>
+<span class="n">UIGraphicsBeginImageContextWithOptions</span><span class="p">(</span><span class="nb">self</span><span class="p">.</span><span class="n">bounds</span><span class="p">.</span><span class="n">size</span><span class="p">,</span> <span class="nb">NO</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">);</span>
+
+<span class="c1">// Add a clip before drawing anything, in the shape of an rounded rect</span>
+<span class="p">[[</span><span class="bp">UIBezierPath</span> <span class="nl">bezierPathWithRoundedRect</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">bounds</span> <span class="nl">cornerRadius</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">bounds</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span><span class="o">/</span><span class="mi">2</span><span class="p">]</span> <span class="n">addClip</span><span class="p">];</span>
+                                        
+<span class="c1">// Draw your image</span>
+<span class="p">[</span><span class="n">image</span> <span class="nl">drawInRect</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">bounds</span><span class="p">];</span>
+            
+<span class="c1">// Get the image, here setting the UIImageView image</span>
+<span class="nb">self</span><span class="p">.</span><span class="n">image</span> <span class="o">=</span> <span class="n">UIGraphicsGetImageFromCurrentImageContext</span><span class="p">();</span>
+            
+<span class="c1">// Lets forget about that we were drawing</span>
+<span class="n">UIGraphicsEndImageContext</span><span class="p">();</span></code></pre></div>
+
+<p>经过测试，这种方式在图片较多的情况下依然会有轻微的卡顿，但比起第一种方法已经改善了很多，基本可以满足项目的需求。</p>
 
 </article>
+
+
+  <div class="footer">
+  <p align="right">
+  	<small>
+    原创文章，转载请注明出处： <a href="">/ios%E5%BC%80%E5%8F%91/2014/11/13/iOS%E5%9B%BE%E7%89%87%E5%9C%86%E8%A7%92%E7%9A%84%E4%B8%A4%E7%A7%8D%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F%E6%AF%94%E8%BE%83/</a>
+	</small>
+</p>
+</div>
 
 
 
@@ -140,7 +165,7 @@ var _hmt = _hmt || [];
 		
 	
 <!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="iOS图片圆角的两种实现方式比较" data-title="iOS图片圆角的两种实现方式比较" data-url="/ios%E5%BC%80%E5%8F%91/2014/11/13/iOS%E5%9B%BE%E7%89%87%E5%9C%86%E8%A7%92%E7%9A%84%E4%B8%A4%E7%A7%8D%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F%E6%AF%94%E8%BE%83/"></div>
+	<div class="ds-thread" data-thread-key="iOS图片圆角实现和性能优化" data-title="iOS图片圆角实现和性能优化" data-url="/ios%E5%BC%80%E5%8F%91/2014/11/13/iOS%E5%9B%BE%E7%89%87%E5%9C%86%E8%A7%92%E7%9A%84%E4%B8%A4%E7%A7%8D%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F%E6%AF%94%E8%BE%83/"></div>
 <!-- 多说评论框 end -->
 <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 <script type="text/javascript">
