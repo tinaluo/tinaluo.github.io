@@ -1,31 +1,11 @@
 ---
 layout: page
-title:  关于Pixyll 中文版
+title:  关于我
 permalink: /about/
 no_duoshuo: true
 ---
+Kyle Sun，iOS程序员一枚，目前就职于深圳乐行天下科技有限公司，曾开发乐行体感车iOS手机端应用乐行。
+喜欢篮球，喜欢音乐，闲了看看电影，写写代码，对IT的新技术很感兴趣。
 
-##中文版说明##
-这是pixyll的汉化版，主要改动如下:
-
-1. 语言汉化
-2. 加入**多说**评论功能
-3. 加入**百度统计**(可用google统计和百度统计)
-4. fonts.googleapis.com更改为360字体cdn，大幅增加国内访问速度
-
-关于如何使用，请参考：[中文版使用说明](http://pixyll.maxee.info)
-
-##原版说明##
-This Jekyll theme was crafted with <3 by [John Otander](http://johnotander.com)
-([@4lpine](https://twitter.com/4lpine)).
-
-Checkout the [Github repository](https://github.com/johnotander/pixyll) to download it,
-request a feature, report a bug, or contribute. It's free, and open source
-([MIT](http://opensource.org/licenses/MIT)).
-
-Thanks to the following:
-
-* [BASSCSS](http://basscss.com)
-* [Jekyll](http://jekyllrb.com)
-* [Refills](http://refills.bourbon.io/)
-* [Solarized](http://ethanschoonover.com/solarized)
+##关于博客
+博客使用jekyll搭建，使用的模板是Pixyll中文版，模板地址：[Pixyll中文版](https://github.com/ee0703/pixyll-zh-cn)
