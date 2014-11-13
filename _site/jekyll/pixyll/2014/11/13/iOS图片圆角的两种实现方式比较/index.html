@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>iOS图片圆角的两种实现方式比较 &#8211; Kyle's Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Pixyll is a simple, beautiful theme for Jekyll that emphasizes content rather than aesthetic fluff.">
+    <meta name="author" content="Kyle Sun">
+    <meta name="keywords" content="jekyll, pixyll">
+    <link rel="canonical" href="http://skx926.github.io/jekyll/pixyll/2014/11/13/iOS%E5%9B%BE%E7%89%87%E5%9C%86%E8%A7%92%E7%9A%84%E4%B8%A4%E7%A7%8D%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F%E6%AF%94%E8%BE%83/">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/pixyll.css" type="text/css">
+
+    <!-- Fonts -->
+    <link href='//fonts.useso.com/css?family=Merriweather:900,900italic,300,300italic' rel='stylesheet' type='text/css'>
+    <link href='//fonts.useso.com/css?family=Lato:900,300' rel='stylesheet' type='text/css'>
+    
+
+    <!-- Open Graph -->
+    <!-- From: https://github.com/mmistakes/hpstr-jekyll-theme/blob/master/_includes/head.html -->
+    <meta property="og:locale" content="en_US">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="iOS图片圆角的两种实现方式比较">
+    <meta property="og:description" content="A simple, beautiful theme for Jekyll that emphasizes content rather than aesthetic fluff.">
+    <meta property="og:url" content="http://skx926.github.io/jekyll/pixyll/2014/11/13/iOS%E5%9B%BE%E7%89%87%E5%9C%86%E8%A7%92%E7%9A%84%E4%B8%A4%E7%A7%8D%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F%E6%AF%94%E8%BE%83/">
+    <meta property="og:site_name" content="Kyle's Blog">
+    
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?eb644977e4ba55deb38e461b9bf84176";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+</head>
+
+<body class="">
+  <div class="site-wrap">
+    <header class="site-header px2 px-responsive">
+  <div class="mt2 wrap">
+    <div class="measure">
+      <a href="http://skx926.github.io" class="site-title">Kyle's Blog</a>
+      <nav class="site-nav right">
+        <a href="/about/">关于</a>
+<a href="/contact/">联系</a>
+
+      </nav>
+      <div class="clearfix"></div>
+      
+    </div>
+  </div>
+</header>
+
+
+    <div class="post p2 p-responsive wrap" role="main">
+      <div class="measure">
+        
+
+
+<div class="post-header mb2">
+  
+  <h1 class="py2">iOS图片圆角的两种实现方式比较</h1>
+  
+  <span class="post-meta">11月 13日, 2014</span><br>
+  
+  <span class="post-meta small">1 minute read</span>
+</div>
+
+<article class="post-content">
+  <p>设置CALayer属性masksToBounds = YES时会有性能问题，导致圆角view多的地方卡顿，将其设置为NO，并使用以下方法直接将图片切成圆角可以提高性能：</p>
+
+<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="p">-(</span><span class="kt">void</span><span class="p">)</span><span class="nf">setImageURL:</span><span class="p">(</span><span class="bp">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">url</span><span class="p">{</span>
+    <span class="p">[</span><span class="nb">self</span> <span class="nl">sd_setImageWithURL</span><span class="p">:[</span><span class="bp">NSURL</span> <span class="nl">URLWithString</span><span class="p">:</span><span class="n">url</span><span class="p">]</span> <span class="nl">placeholderImage</span><span class="p">:[</span><span class="bp">UIImage</span> <span class="nl">imageNamed</span><span class="p">:</span><span class="s">@&quot;my_avatar&quot;</span><span class="p">]</span> <span class="nl">completed</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="bp">UIImage</span> <span class="o">*</span><span class="n">image</span><span class="p">,</span> <span class="bp">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">,</span> <span class="n">SDImageCacheType</span> <span class="n">cacheType</span><span class="p">,</span> <span class="bp">NSURL</span> <span class="o">*</span><span class="n">imageURL</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">image</span><span class="p">)</span> <span class="p">{</span>
+            <span class="c1">// Begin a new image that will be the new image with the rounded corners</span>
+            <span class="c1">// (here with the size of an UIImageView)</span>
+            <span class="n">UIGraphicsBeginImageContextWithOptions</span><span class="p">(</span><span class="nb">self</span><span class="p">.</span><span class="n">bounds</span><span class="p">.</span><span class="n">size</span><span class="p">,</span> <span class="nb">NO</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">);</span>
+            
+            <span class="c1">// Add a clip before drawing anything, in the shape of an rounded rect</span>
+            <span class="p">[[</span><span class="bp">UIBezierPath</span> <span class="nl">bezierPathWithRoundedRect</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">bounds</span>
+                                        <span class="nl">cornerRadius</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">bounds</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span><span class="o">/</span><span class="mi">2</span><span class="p">]</span> <span class="n">addClip</span><span class="p">];</span>
+            <span class="c1">// Draw your image</span>
+            <span class="p">[</span><span class="n">image</span> <span class="nl">drawInRect</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">bounds</span><span class="p">];</span>
+            
+            <span class="c1">// Get the image, here setting the UIImageView image</span>
+            <span class="nb">self</span><span class="p">.</span><span class="n">image</span> <span class="o">=</span> <span class="n">UIGraphicsGetImageFromCurrentImageContext</span><span class="p">();</span>
+            
+            <span class="c1">// Lets forget about that we were drawing</span>
+            <span class="n">UIGraphicsEndImageContext</span><span class="p">();</span>
+        <span class="p">}</span>
+    <span class="p">}];</span>
+<span class="p">}</span></code></pre></div>
+
+
+</article>
+
+
+
+
+
+		
+	
+<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="iOS图片圆角的两种实现方式比较" data-title="iOS图片圆角的两种实现方式比较" data-url="http://skx926.github.io/jekyll/pixyll/2014/11/13/iOS%E5%9B%BE%E7%89%87%E5%9C%86%E8%A7%92%E7%9A%84%E4%B8%A4%E7%A7%8D%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F%E6%AF%94%E8%BE%83/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"skx926"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+
+
+      	
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+  <div class="p2 wrap">
+    <div class="measure mt1 center">
+      <small>
+	<a href="https://github.com/ee0703/pixyll-zh-cn">Pixyll中文版</a> 
+	汉化 by <a href="https://github.com/ee0703">EE</a><br>
+        Crafted with &lt;3 by <a href="http://johnotander.com">John Otander</a> (<a href="https://twitter.com/4lpine">@4lpine</a>).<br>
+        &lt;/&gt; available on <a href="https://github.com/johnotander/pixyll">Github</a>.
+      </small>
+    </div>
+  </div>
+</footer>
+
+
+
+</body>
+</html>

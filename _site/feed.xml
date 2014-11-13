@@ -3,8 +3,40 @@
   <channel>
     <title>Kyle&#39;s Blog</title>
     <description>A simple, beautiful theme for Jekyll that emphasizes content rather than aesthetic fluff.</description>
-    <link>https://skx926.github.io/</link>
-    <atom:link href="https://skx926.github.io/feed.xml" rel="self" type="application/rss+xml" />
+    <link>http://skx926.github.io/</link>
+    <atom:link href="http://skx926.github.io/feed.xml" rel="self" type="application/rss+xml" />
+    
+      <item>
+        <title>iOS图片圆角的两种实现方式比较</title>
+        <description>&lt;p&gt;设置CALayer属性masksToBounds = YES时会有性能问题，导致圆角view多的地方卡顿，将其设置为NO，并使用以下方法直接将图片切成圆角可以提高性能：&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-objc&quot; data-lang=&quot;objc&quot;&gt;&lt;span class=&quot;p&quot;&gt;-(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;setImageURL:&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;NSString&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;url&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;self&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;sd_setImageWithURL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:[&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;NSURL&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;URLWithString&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;url&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;placeholderImage&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:[&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;UIImage&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;imageNamed&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;@&amp;quot;my_avatar&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;completed&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;^&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;UIImage&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;image&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;NSError&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SDImageCacheType&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cacheType&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;NSURL&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;imageURL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;image&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;c1&quot;&gt;// Begin a new image that will be the new image with the rounded corners&lt;/span&gt;
+            &lt;span class=&quot;c1&quot;&gt;// (here with the size of an UIImageView)&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;UIGraphicsBeginImageContextWithOptions&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;bounds&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;size&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;NO&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+            
+            &lt;span class=&quot;c1&quot;&gt;// Add a clip before drawing anything, in the shape of an rounded rect&lt;/span&gt;
+            &lt;span class=&quot;p&quot;&gt;[[&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;UIBezierPath&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;bezierPathWithRoundedRect&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;bounds&lt;/span&gt;
+                                        &lt;span class=&quot;nl&quot;&gt;cornerRadius&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;bounds&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;size&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;width&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;addClip&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+            &lt;span class=&quot;c1&quot;&gt;// Draw your image&lt;/span&gt;
+            &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;image&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;drawInRect&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;bounds&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+            
+            &lt;span class=&quot;c1&quot;&gt;// Get the image, here setting the UIImageView image&lt;/span&gt;
+            &lt;span class=&quot;nb&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;image&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;UIGraphicsGetImageFromCurrentImageContext&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+            
+            &lt;span class=&quot;c1&quot;&gt;// Lets forget about that we were drawing&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;UIGraphicsEndImageContext&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}];&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+</description>
+        <pubDate>Thu, 13 Nov 2014 20:31:19 +0800</pubDate>
+        <link>http://skx926.github.io/jekyll/pixyll/2014/11/13/iOS%E5%9B%BE%E7%89%87%E5%9C%86%E8%A7%92%E7%9A%84%E4%B8%A4%E7%A7%8D%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F%E6%AF%94%E8%BE%83/</link>
+        <guid isPermaLink="true">http://skx926.github.io/jekyll/pixyll/2014/11/13/iOS%E5%9B%BE%E7%89%87%E5%9C%86%E8%A7%92%E7%9A%84%E4%B8%A4%E7%A7%8D%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F%E6%AF%94%E8%BE%83/</guid>
+      </item>
     
       <item>
         <title>Hello, Pixyll</title>
@@ -28,8 +60,8 @@
 &lt;p&gt;It’s free, and open source (&lt;a href=&quot;http://opensource.org/licenses/MIT&quot;&gt;MIT&lt;/a&gt;).&lt;/p&gt;
 </description>
         <pubDate>Wed, 11 Jun 2014 23:31:19 +0800</pubDate>
-        <link>https://skx926.github.io/jekyll/pixyll/2014/06/11/welcome-to-pixyll/</link>
-        <guid isPermaLink="true">https://skx926.github.io/jekyll/pixyll/2014/06/11/welcome-to-pixyll/</guid>
+        <link>http://skx926.github.io/jekyll/pixyll/2014/06/11/welcome-to-pixyll/</link>
+        <guid isPermaLink="true">http://skx926.github.io/jekyll/pixyll/2014/06/11/welcome-to-pixyll/</guid>
       </item>
     
       <item>
@@ -120,8 +152,8 @@ or add, features.&lt;/p&gt;
 &lt;p&gt;Happy writing.&lt;/p&gt;
 </description>
         <pubDate>Tue, 10 Jun 2014 20:31:19 +0800</pubDate>
-        <link>https://skx926.github.io/jekyll/pixyll/2014/06/10/see-pixyll-in-action/</link>
-        <guid isPermaLink="true">https://skx926.github.io/jekyll/pixyll/2014/06/10/see-pixyll-in-action/</guid>
+        <link>http://skx926.github.io/jekyll/pixyll/2014/06/10/see-pixyll-in-action/</link>
+        <guid isPermaLink="true">http://skx926.github.io/jekyll/pixyll/2014/06/10/see-pixyll-in-action/</guid>
       </item>
     
       <item>
@@ -137,8 +169,8 @@ and &lt;a href=&quot;http://en.wikipedia.org/wiki/Textile_(markup_language)&quot
 &lt;p&gt;Learn more about Jekyll on their &lt;a href=&quot;http://jekyllrb.com/&quot;&gt;website&lt;/a&gt;.&lt;/p&gt;
 </description>
         <pubDate>Mon, 09 Jun 2014 20:32:18 +0800</pubDate>
-        <link>https://skx926.github.io/jekyll/pixyll/2014/06/09/so-what-is-jekyll/</link>
-        <guid isPermaLink="true">https://skx926.github.io/jekyll/pixyll/2014/06/09/so-what-is-jekyll/</guid>
+        <link>http://skx926.github.io/jekyll/pixyll/2014/06/09/so-what-is-jekyll/</link>
+        <guid isPermaLink="true">http://skx926.github.io/jekyll/pixyll/2014/06/09/so-what-is-jekyll/</guid>
       </item>
     
       <item>
@@ -146,8 +178,8 @@ and &lt;a href=&quot;http://en.wikipedia.org/wiki/Textile_(markup_language)&quot
         <description>&lt;p&gt;This is an empty post to illustrate the pagination component with Pixyll.&lt;/p&gt;
 </description>
         <pubDate>Sun, 08 Jun 2014 19:21:29 +0800</pubDate>
-        <link>https://skx926.github.io/jekyll/pixyll/2014/06/08/pixyll-has-pagination/</link>
-        <guid isPermaLink="true">https://skx926.github.io/jekyll/pixyll/2014/06/08/pixyll-has-pagination/</guid>
+        <link>http://skx926.github.io/jekyll/pixyll/2014/06/08/pixyll-has-pagination/</link>
+        <guid isPermaLink="true">http://skx926.github.io/jekyll/pixyll/2014/06/08/pixyll-has-pagination/</guid>
       </item>
     
   </channel>
