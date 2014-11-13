@@ -1,5 +1,5 @@
 # Site settings
-title:       Kyle 
+title:       Kyle's Blog
 email:       skx926@gmail.com 
 author:      Kyle Sun
 description: "A simple, beautiful theme for Jekyll that emphasizes content rather than aesthetic fluff."
@@ -22,9 +22,9 @@ show_post_footers:  false
 
 # Social icons
 show_social_icons: false
-github_username:
-twitter_username:
-google_plus_id:
+github_username: skx926
+twitter_username: 
+google_plus_id: 
 linkedin_username:
 bitcoin_url:
 paypal_url:
