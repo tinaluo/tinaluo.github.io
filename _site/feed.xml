@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Kyle</title>
+    <title>Kyle&#39;s Blog</title>
     <description>A simple, beautiful theme for Jekyll that emphasizes content rather than aesthetic fluff.</description>
     <link>https://skx926.github.io/</link>
     <atom:link href="https://skx926.github.io/feed.xml" rel="self" type="application/rss+xml" />
