@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Kyle's Blog</title>
+    <title>Kyle Sun's Blog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="A simple, beautiful theme for Jekyll that emphasizes content rather than aesthetic fluff.">
     <meta name="author" content="Kyle Sun">
@@ -25,10 +25,10 @@
     <!-- From: https://github.com/mmistakes/hpstr-jekyll-theme/blob/master/_includes/head.html -->
     <meta property="og:locale" content="en_US">
     <meta property="og:type" content="article">
-    <meta property="og:title" content="Kyle's Blog">
+    <meta property="og:title" content="Kyle Sun's Blog">
     <meta property="og:description" content="A simple, beautiful theme for Jekyll that emphasizes content rather than aesthetic fluff.">
     <meta property="og:url" content="/">
-    <meta property="og:site_name" content="Kyle's Blog">
+    <meta property="og:site_name" content="Kyle Sun's Blog">
     
 
 <script>
@@ -50,7 +50,7 @@ var _hmt = _hmt || [];
     <header class="site-header px2 px-responsive">
   <div class="mt2 wrap">
     <div class="measure">
-      <a href="" class="site-title">Kyle's Blog</a>
+      <a href="" class="site-title">Kyle Sun's Blog</a>
       <nav class="site-nav right">
         <a href="/">首页</a>
 <a href="/archive/">所有文章</a>
@@ -100,15 +100,15 @@ var _hmt = _hmt || [];
       <div class="post">
         <a href="/ios%E5%BC%80%E5%8F%91/2014/11/13/iOS%E5%9B%BE%E7%89%87%E5%9C%86%E8%A7%92%E7%9A%84%E4%B8%A4%E7%A7%8D%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F%E6%AF%94%E8%BE%83/" class="post-link">
           <p class="post-meta">11 月 13日, 2014</p>
-          <h3 class="h2 post-title">iOS图片圆角的两种实现方式比较</h3>
-          <p class="post-summary">Pixyll is a simple, beautiful theme for Jekyll that emphasizes content rather than aesthetic fluff.</p>
+          <h3 class="h3 post-title">iOS图片圆角的两种实现方式比较</h3>
+          <p class="post-summary">设置CALayer属性masksToBounds = YES时会有性能问题，导致圆角view多的地方卡顿，将其设置为NO, 并使用以下方法直接将图片切成圆角可以提高性能</p>
         </a>
       </div>
     
       <div class="post">
         <a href="/pixyll/2014/06/11/welcome-to-pixyll/" class="post-link">
           <p class="post-meta">06 月 11日, 2014</p>
-          <h3 class="h2 post-title">Hello, Pixyll</h3>
+          <h3 class="h3 post-title">Hello, Pixyll</h3>
           <p class="post-summary">Pixyll is a simple, beautiful theme for Jekyll that emphasizes content rather than aesthetic fluff.</p>
         </a>
       </div>
@@ -116,8 +116,24 @@ var _hmt = _hmt || [];
       <div class="post">
         <a href="/pixyll/2014/06/10/see-pixyll-in-action/" class="post-link">
           <p class="post-meta">06 月 10日, 2014</p>
-          <h3 class="h2 post-title">Pixyll in Action</h3>
+          <h3 class="h3 post-title">Pixyll in Action</h3>
           <p class="post-summary">See what the different elements looks like. Your markdown has never looked better. I promise.</p>
+        </a>
+      </div>
+    
+      <div class="post">
+        <a href="/pixyll/2014/06/08/so-what-is-jekyll/" class="post-link">
+          <p class="post-meta">06 月 08日, 2014</p>
+          <h3 class="h3 post-title">So, What is Jekyll?</h3>
+          <p class="post-summary">Transform your plain text into static websites and blogs. Simple, static, and blog-aware.</p>
+        </a>
+      </div>
+    
+      <div class="post">
+        <a href="/pixyll/2014/06/08/pixyll-has-pagination/" class="post-link">
+          <p class="post-meta">06 月 08日, 2014</p>
+          <h3 class="h3 post-title">Pixyll has Pagination</h3>
+          <p class="post-summary">This is an empty post to illustrate the pagination component with Pixyll.</p>
         </a>
       </div>
     
@@ -131,7 +147,7 @@ var _hmt = _hmt || [];
   </div>
   <div class="right">
     
-      <a class="pagination-item" href="/page2/">下一页</a>
+      <span class="pagination-item disabled">下一页</span>
     
   </div>
 </div>

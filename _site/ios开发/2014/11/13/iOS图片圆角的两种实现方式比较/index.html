@@ -3,9 +3,9 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>iOS图片圆角的两种实现方式比较 &#8211; Kyle's Blog</title>
+    <title>iOS图片圆角的两种实现方式比较 &#8211; Kyle Sun's Blog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Pixyll is a simple, beautiful theme for Jekyll that emphasizes content rather than aesthetic fluff.">
+    <meta name="description" content="设置CALayer属性masksToBounds = YES时会有性能问题，导致圆角view多的地方卡顿，将其设置为NO, 并使用以下方法直接将图片切成圆角可以提高性能">
     <meta name="author" content="Kyle Sun">
     <meta name="keywords" content="ios开发">
     <link rel="canonical" href="/ios%E5%BC%80%E5%8F%91/2014/11/13/iOS%E5%9B%BE%E7%89%87%E5%9C%86%E8%A7%92%E7%9A%84%E4%B8%A4%E7%A7%8D%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F%E6%AF%94%E8%BE%83/">
@@ -28,7 +28,7 @@
     <meta property="og:title" content="iOS图片圆角的两种实现方式比较">
     <meta property="og:description" content="A simple, beautiful theme for Jekyll that emphasizes content rather than aesthetic fluff.">
     <meta property="og:url" content="/ios%E5%BC%80%E5%8F%91/2014/11/13/iOS%E5%9B%BE%E7%89%87%E5%9C%86%E8%A7%92%E7%9A%84%E4%B8%A4%E7%A7%8D%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F%E6%AF%94%E8%BE%83/">
-    <meta property="og:site_name" content="Kyle's Blog">
+    <meta property="og:site_name" content="Kyle Sun's Blog">
     
 
 <script>
@@ -50,7 +50,7 @@ var _hmt = _hmt || [];
     <header class="site-header px2 px-responsive">
   <div class="mt2 wrap">
     <div class="measure">
-      <a href="" class="site-title">Kyle's Blog</a>
+      <a href="" class="site-title">Kyle Sun's Blog</a>
       <nav class="site-nav right">
         <a href="/">首页</a>
 <a href="/archive/">所有文章</a>
@@ -98,7 +98,7 @@ var _hmt = _hmt || [];
 
 <div class="post-header mb2">
   
-  <h1 class="py2">iOS图片圆角的两种实现方式比较</h1>
+  <h3 class="py2">iOS图片圆角的两种实现方式比较</h3>
   
   <span class="post-meta">11月 13日, 2014</span><br>
   

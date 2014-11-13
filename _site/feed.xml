@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Kyle&#39;s Blog</title>
+    <title>Kyle Sun&#39;s Blog</title>
     <description>A simple, beautiful theme for Jekyll that emphasizes content rather than aesthetic fluff.</description>
     <link>/</link>
     <atom:link href="/feed.xml" rel="self" type="application/rss+xml" />
@@ -168,9 +168,9 @@ and &lt;a href=&quot;http://en.wikipedia.org/wiki/Textile_(markup_language)&quot
 
 &lt;p&gt;Learn more about Jekyll on their &lt;a href=&quot;http://jekyllrb.com/&quot;&gt;website&lt;/a&gt;.&lt;/p&gt;
 </description>
-        <pubDate>Mon, 09 Jun 2014 20:32:18 +0800</pubDate>
-        <link>/pixyll/2014/06/09/so-what-is-jekyll/</link>
-        <guid isPermaLink="true">/pixyll/2014/06/09/so-what-is-jekyll/</guid>
+        <pubDate>Sun, 08 Jun 2014 20:32:18 +0800</pubDate>
+        <link>/pixyll/2014/06/08/so-what-is-jekyll/</link>
+        <guid isPermaLink="true">/pixyll/2014/06/08/so-what-is-jekyll/</guid>
       </item>
     
       <item>
