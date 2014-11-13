@@ -3,7 +3,7 @@ layout:     post
 title:      iOS图片圆角的两种实现方式比较
 date:       2014-11-13 12:31:19
 summary:    Pixyll is a simple, beautiful theme for Jekyll that emphasizes content rather than aesthetic fluff.
-categories: jekyll pixyll
+categories: iOS开发
 ---
 
 设置CALayer属性masksToBounds = YES时会有性能问题，导致圆角view多的地方卡顿，将其设置为NO，并使用以下方法直接将图片切成圆角可以提高性能：

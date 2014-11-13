@@ -4,7 +4,7 @@ email:       skx926@gmail.com
 author:      Kyle Sun
 description: "A simple, beautiful theme for Jekyll that emphasizes content rather than aesthetic fluff."
 baseurl:     ""
-url:         "http://skx926.github.io"
+url:         ""
 
 #Duoshuo short Name / 多说的shortname
 duoshuo: skx926
@@ -21,10 +21,10 @@ show_related_posts: false
 show_post_footers:  false
 
 # Social icons
-show_social_icons: false
+show_social_icons: true
 github_username: skx926
-twitter_username: 
-google_plus_id: 
+twitter_username: kes0n
+weibo_username: ikeson
 linkedin_username:
 bitcoin_url:
 paypal_url:
